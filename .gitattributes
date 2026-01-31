@@ -1,0 +1,6 @@
+# Maven wrapper
+mvnw text eol=lf
+
+# Windows batch files (if you have any)
+*.cmd text eol=crlf
+*.bat text eol=crlf
