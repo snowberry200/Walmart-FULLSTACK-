@@ -8,9 +8,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -30,33 +32,39 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            // 1. Extract JWT token from request
             String token = getJwtFromRequest(request);
 
-            // 2. Validate token
-            if (token != null && jwtTokenProviderImp.validateToken(token)) {
-
-                // 3. Extract user info from token
+            if (StringUtils.hasText(token) && jwtTokenProviderImp.validateToken(token)) {
                 String email = jwtTokenProviderImp.extractEmailFromToken(token);
-                String role = extractRoleFromToken(token); // You need to add this method
+                String role = jwtTokenProviderImp.extractRoleFromToken(token);
 
-                // 4. Create authentication object
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                email,           // Principal (email)
-                                null,            // Credentials (none for JWT)
-                                getAuthorities(role) // Convert role to authorities
-                        );
+                System.out.println("DEBUG: Authenticating user - Email: " + email + ", Role: " + role);
 
-                // 5. Set authentication in SecurityContext
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (email != null) {
+                    List<SimpleGrantedAuthority> authorities = Collections.singletonList(
+                            new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
+                    );
+
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    authorities
+                            );
+
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("DEBUG: Authentication set successfully");
+                }
+            } else if (token != null) {
+                System.out.println("DEBUG: Invalid token received");
+            } else {
+                System.out.println("DEBUG: No token in request to " + request.getRequestURI());
             }
         } catch (Exception e) {
-            // Log error but don't stop the filter chain
-            logger.error("Cannot set user authentication", e);
+            System.err.println("ERROR in JWT filter: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        // 6. Continue with the filter chain
         filterChain.doFilter(request, response);
     }
 

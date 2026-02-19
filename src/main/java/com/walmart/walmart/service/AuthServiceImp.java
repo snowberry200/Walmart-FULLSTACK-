@@ -58,7 +58,6 @@ public class AuthServiceImp implements AuthService {
             newUser.setActive(true);
             newUser.setCreatedAt(LocalDateTime.now());
 
-
             // 6. Save user
             Users savedUser = authRepository.save(newUser);
 
@@ -100,7 +99,7 @@ public class AuthServiceImp implements AuthService {
             //c. verificationToken
             String verificationToken = "";
             //d. requiresVerification
-            boolean requiresVerification = true;
+            boolean requiresVerification = false;
             //e.message
             String message = "Welcome to Walmart";
             //f. isActive

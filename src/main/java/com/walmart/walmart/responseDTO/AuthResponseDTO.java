@@ -11,7 +11,8 @@ public class AuthResponseDTO{
     private boolean requiresVerification;
     private String verificationToken;
 
-    public AuthResponseDTO(){}
+    public AuthResponseDTO(){    //this is for JPA use
+    }
 
     public static AuthResponseDTO forSignIn (String verificationToken, boolean requiresVerification, String message,String accessToken, UserDTO user){
         AuthResponseDTO authResponseDTO = new AuthResponseDTO();

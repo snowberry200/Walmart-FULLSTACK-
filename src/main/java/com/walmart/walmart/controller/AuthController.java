@@ -5,9 +5,11 @@ import com.walmart.walmart.responseDTO.AuthResponseDTO;
 import com.walmart.walmart.service.AuthServiceImp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+//@RestController
+@Controller
 @RequestMapping("/api/auth")  //
 @CrossOrigin(origins = "*")   // Enable CORS
 public class AuthController {

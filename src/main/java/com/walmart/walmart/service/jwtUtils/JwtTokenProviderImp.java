@@ -41,7 +41,13 @@ public class JwtTokenProviderImp implements JwtTokenProvider {
         Map<String,Object> claims =new HashMap<>();
         claims.put("userId",user.getId());
         claims.put("userEmail",user.getEmail());
-        claims.put("userRole",user.getRoles());
+        // FIX: Get the first role name as string
+        String roleName = user.getRoles().stream()
+                .findFirst()
+                .map(role -> role.getName())  // Assuming Role has getName()
+                .orElse("USER");
+
+        claims.put("userRole", roleName);  // Store as String
         claims.put("userName",user.getName());
         claims.put("userIsActive",user.isActive());
 
