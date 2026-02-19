@@ -49,7 +49,7 @@ public class AuthServiceImp implements AuthService {
             // 4. Get or create role
             Role userRole = roleRepository.findByName("USER")
                     .orElseGet(() -> {
-                        Role newRole = Role.createnNewRole("USER");
+                        Role newRole = Role.createNewRole("USER");
                         return roleRepository.save(newRole);
                     });
 
