@@ -38,29 +38,53 @@ public class SecurityConfigurationImpl {
                     .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth -> auth
-                            // Public endpoints
+                            // PUBLIC ENDPOINTS - No authentication required
                             .requestMatchers(
-                                    "/api/auth/**",          // Auth API
-                                    "/error",                // Error handling
-                                    "/favicon.ico",          // Favicon
-                                    "/",                     // Root - serves Flutter app
-                                    "/index.html",           // Flutter index
-                                    "/static/**",            // Static resources
-                                    "/assets/**",            // Flutter assets
-                                    "/main.dart.js",         // Flutter main JS
-                                    "/flutter_service_worker.js",  // Flutter service worker
-                                    "/manifest.json",        // Web manifest
-                                    "/icons/**",             // Icons
-                                    "/*.js",                 // All JS files
-                                    "/*.css",                // All CSS files
-                                    "/*.png",                // All PNG images
-                                    "/*.jpg",                // All JPG images
-                                    "/swagger-ui/**",        // Swagger UI
-                                    "/v3/api-docs/**"        // OpenAPI docs
+                                    // Auth endpoints
+                                    "/api/auth/**",
+                                    "/api/auth/login",
+                                    "/api/auth/register",
+                                    "/api/auth/refresh",
+
+                                    // User registration - MAKE THIS PUBLIC!
+                                    "/api/users/register",
+                                    "/api/public/**",
+                                    "/api/public/users",
+
+                                    // Flutter web resources
+                                    "/",
+                                    "/index.html",
+                                    "/static/**",
+                                    "/assets/**",
+                                    "/main.dart.js",
+                                    "/flutter_service_worker.js",
+                                    "/manifest.json",
+                                    "/icons/**",
+                                    "/*.js",
+                                    "/*.css",
+                                    "/*.png",
+                                    "/*.jpg",
+
+                                    // Swagger/API docs
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+
+                                    // Error handling
+                                    "/error",
+                                    "/favicon.ico"
                             ).permitAll()
-                            // API endpoints require authentication
-                            .requestMatchers("/api/**").authenticated()
-                            // Everything else (Flutter routes) should be accessible
+
+                            // PROTECTED ENDPOINTS - Need JWT token
+                            .requestMatchers(
+                                    "/api/users/**",        // All user operations except register
+                                    "/api/users/profile",   // User profile
+                                    "/api/users/update",    // Update user
+                                    "/api/users/delete",    // Delete user
+                                    "/api/roles/**",        // Role management
+                                    "/api/admin/**"         // Admin only endpoints
+                            ).authenticated()
+
+                            // Allow all other requests (for Flutter routing)
                             .anyRequest().permitAll()
                     )
                     .sessionManagement(session -> session
@@ -86,7 +110,7 @@ public class SecurityConfigurationImpl {
                     .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                     .build();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Security configuration failed", e);
         }
     }
 
@@ -97,7 +121,9 @@ public class SecurityConfigurationImpl {
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://localhost:5555",  // Flutter web default
-                "http://localhost"        // Flutter web
+                "http://127.0.0.1:5555",  // Flutter web alternative
+                "http://localhost",        // Flutter web
+                "http://127.0.0.1"         // Flutter web alternative
         ));
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
@@ -113,16 +139,13 @@ public class SecurityConfigurationImpl {
         ));
         configuration.setExposedHeaders(List.of(
                 "Authorization",
-                "Content-Type",
-                "Content-Length"
+                "Content-Type"
         ));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);  // Apply to ALL endpoints
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
 }
