@@ -27,7 +27,7 @@ public class SecurityConfigurationImpl {
     }
 
     @Bean
-    public PasswordEncoder getPasswordEncoded() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -123,7 +123,8 @@ public class SecurityConfigurationImpl {
                 "http://localhost:5555",  // Flutter web default
                 "http://127.0.0.1:5555",  // Flutter web alternative
                 "http://localhost",        // Flutter web
-                "http://127.0.0.1"         // Flutter web alternative
+                "http://127.0.0.1",
+                "http://localhost:54137" // Flutter web alternative
         ));
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
