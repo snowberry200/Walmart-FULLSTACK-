@@ -124,7 +124,7 @@ public class SecurityConfigurationImpl {
                 "http://127.0.0.1:5555",  // Flutter web alternative
                 "http://localhost",        // Flutter web
                 "http://127.0.0.1",
-                "http://localhost:54137" // Flutter web alternative
+                "http://localhost:61433" // Flutter web alternative
         ));
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
