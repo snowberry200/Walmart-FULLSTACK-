@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46371181115",
+    "project_id": "walmart-e0618",
+    "storage_bucket": "walmart-e0618.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46371181115:android:a93618b9a9482a328dc21e",
+        "android_client_info": {
+          "package_name": "com.enkasa.walmart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6xybV_IFKd9YGsv2DW28bQifuqQ64Ji8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
