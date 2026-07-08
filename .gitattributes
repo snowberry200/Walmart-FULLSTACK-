@@ -1,0 +1,32 @@
+# Backend - Java/Spring Boot
+*.java linguist-language=Java
+pom.xml linguist-language=Java
+*.properties linguist-language=Properties
+*.xml linguist-language=XML
+
+# Frontend - Flutter/Dart
+*.dart linguist-language=Dart
+pubspec.yaml linguist-language=Dart
+pubspec.lock linguist-language=Dart
+*.yaml linguist-language=YAML
+
+# Exclude build artifacts and generated files
+build/ linguist-vendored
+target/ linguist-vendored
+*.js linguist-vendored
+*.css linguist-vendored
+*.html linguist-vendored
+*.map linguist-vendored
+
+# Override JavaScript files from Flutter build
+**/web/*.js linguist-language=JavaScript
+**/build/web/*.js linguist-vendored
+**/web/*.js linguist-generated
+
+# Make sure backend shows as Java
+src/main/java/** linguist-language=Java
+src/test/java/** linguist-language=Java
+
+# Make sure frontend shows as Dart
+lib/** linguist-language=Dart
+test/** linguist-language=Dart
