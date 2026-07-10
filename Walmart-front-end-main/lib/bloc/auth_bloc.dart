@@ -39,20 +39,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             print('Email exists');
           }
           emit(state.copyWith(
-            isSignedIn: false,
-            emailContinue: true,
-            email: email,
-            welcome: false,
-            isSignUp: false,
-            logIn: false,
-            isLoading: false,
-            status: 'ACTIVE',
-            userData: response.user?.toJson(),
-            authResponse: response,
-            errorMessage: null,
-            message:
-                '$email has been verified. Please enter your password to continue.',
-          ));
+              isSignedIn: false,
+              emailContinue: true,
+              email: email,
+              welcome: false,
+              isSignUp: false,
+              logIn: false,
+              isLoading: false,
+              status: 'ACTIVE',
+              userData: response.user?.toJson(),
+              authResponse: response,
+              errorMessage: null,
+              message: '$email verified, enter password'));
         } else {
           emit(state.copyWith(
             isSignedIn: false,
@@ -226,9 +224,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(
       isSignedIn: false,
-      isSignUp: !state.isSignUp, 
+      isSignUp: !state.isSignUp,
       logIn: !state.isSignUp,
-      emailContinue: false, 
+      emailContinue: false,
       errorMessage: null,
       message: null,
       status: null,

@@ -19,20 +19,18 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigurationImpl implements  SecurityConfiguration{
+public class SecurityConfigurationImpl {
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     public SecurityConfigurationImpl(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
     }
 
-    @Override
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         try {
@@ -116,20 +114,17 @@ public class SecurityConfigurationImpl implements  SecurityConfiguration{
         }
     }
 
-    @Override
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(
-                List.of(
+        configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://localhost:5555",  // Flutter web default
                 "http://127.0.0.1:5555",  // Flutter web alternative
                 "http://localhost",        // Flutter web
                 "http://127.0.0.1",
-                "http://localhost:53601", // Flutter web alternative
-                "http://localhost:52620"
+                "http://localhost:61433" // Flutter web alternative
         ));
         configuration.setAllowedMethods(List.of(
                 "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"
