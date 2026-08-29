@@ -1,32 +1,38 @@
-# Backend - Java/Spring Boot
+# Auto-detect text files
+* text=auto
+
+# Explicitly declare backend language (Java/Spring Boot)
 *.java linguist-language=Java
-pom.xml linguist-language=Java
-*.properties linguist-language=Properties
+*.kt linguist-language=Kotlin
 *.xml linguist-language=XML
+*.properties linguist-language=Properties
+*.gradle linguist-language=Groovy
 
-# Frontend - Flutter/Dart
+# Explicitly declare frontend language (Flutter/Dart)
 *.dart linguist-language=Dart
-pubspec.yaml linguist-language=Dart
-pubspec.lock linguist-language=Dart
+*.pubspec linguist-language=YAML
 *.yaml linguist-language=YAML
+*.yml linguist-language=YAML
 
-# Exclude build artifacts and generated files
-build/ linguist-vendored
-target/ linguist-vendored
-*.js linguist-vendored
-*.css linguist-vendored
-*.html linguist-vendored
-*.map linguist-vendored
+# Exclude generated/auto-generated files from language stats
+*.class linguist-generated=true
+*.jar linguist-generated=true
+*.war linguist-generated=true
+*.dex linguist-generated=true
 
-# Override JavaScript files from Flutter build
-**/web/*.js linguist-language=JavaScript
-**/build/web/*.js linguist-vendored
-**/web/*.js linguist-generated
+# Exclude build directories from language stats
+build/ linguist-generated=true
+target/ linguist-generated=true
+.gradle/ linguist-generated=true
+.dart_tool/ linguist-generated=true
 
-# Make sure backend shows as Java
-src/main/java/** linguist-language=Java
-src/test/java/** linguist-language=Java
+# Exclude IDE files from stats
+.idea/ linguist-vendored=true
+.vscode/ linguist-vendored=true
+*.iml linguist-vendored=true
+*.ipr linguist-vendored=true
+*.iws linguist-vendored=true
 
-# Make sure frontend shows as Dart
-lib/** linguist-language=Dart
-test/** linguist-language=Dart
+# Exclude dependencies from stats
+node_modules/ linguist-vendored=true
+pubspec.lock linguist-generated=true
